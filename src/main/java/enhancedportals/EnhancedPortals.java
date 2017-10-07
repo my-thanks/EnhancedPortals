@@ -34,7 +34,8 @@ import java.lang.reflect.Method;
 
 public class EnhancedPortals
 {
-    public static final String MOD_NAME = Reference.EPMod.name,
+    public static final String
+            MOD_NAME = Reference.EPMod.name,
             MOD_ID = Reference.EPMod.mod_id,
             MOD_VERSION = Reference.EPMod.version,
             MOD_DEPENDENCIES = "after:ThermalExpansion; required-after:guideapi;",
@@ -110,7 +111,12 @@ public class EnhancedPortals
         initializeComputerCraft();
         proxy.setupCrafting();
         WormholeTunnelManual.registerGuide();
-
+		
+		if (Loader.isModLoaded(Reference.Dependencies.MODID_FLANSMOD))
+		{
+			Reference.EPConfiguration.flansModLoaded = true;
+		}
+		
         if (event.getSide() == Side.CLIENT)
         {
             FMLCommonHandler.instance().bus().register(new enhancedportals.network.LogOnHandler());
