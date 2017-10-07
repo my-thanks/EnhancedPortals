@@ -978,8 +978,31 @@ public class TileController extends TileFrame implements IPeripheral, SimpleComp
                     EntityManager.setEntityPortalCooldown(entity);
                 }
             }
-
-            try
+			
+			if (Reference.EPConfiguration.flansModLoaded)
+			{		
+				if (EntityManagerFlans.checkEntityType(entity))
+				{				
+					return;
+				}			
+					
+				if (EntityManagerFlans.checkDriveableType(entity))
+				{
+					try
+					{
+						entity = EntityManagerFlans.transferDriveable(entity, this, control);
+						control.onEntityTeleported(entity);
+						control.onEntityTouchPortal(entity);
+					}
+					catch (PortalException e)
+					{
+					}	
+				return;
+				}
+			
+			}			
+            
+			try
             {
                 EntityManager.transferEntity(entity, this, control);
                 control.onEntityTeleported(entity);
@@ -993,7 +1016,6 @@ public class TileController extends TileFrame implements IPeripheral, SimpleComp
                 }
             }
         }
-
     }
 
     public void onEntityTeleported(Entity entity)
